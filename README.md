@@ -7,5 +7,4 @@ Create a script that loops through all the stocks for one year and outputs the f
 
 NOTE: Make sure to use conditional formatting that will highlight positive change in green and negative change in red.
 
-
-
+![stockmarket](https://user-images.githubusercontent.com/100399092/202356430-06b4d1f1-8a5f-402d-bf3d-b4ae0d9b7da2.jpg)
