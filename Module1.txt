@@ -1,0 +1,89 @@
+Attribute VB_Name = "Module1"
+Sub stock_summary()
+
+For Each ws In Worksheets
+
+'Set an initial variable for holding the yearly change in price
+Dim yearly_change As Double
+
+'Set an initial variable for holding the yearly percentage change
+Dim percent_change As Double
+
+'Set an initial variable for holding the total volume of the stock
+Dim total_volume As Double
+
+'Set variables for columns used to calculate new data columns
+Dim ticker As String
+Dim year As Date
+Dim open_price As Double
+Dim close_price As Double
+'Dim volume As Double
+
+'Set a variable for the last row of each worksheet
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+'Initializing the variable
+outputRow = 2
+total_volume = 0
+open_price = ws.Cells(2, 3).Value
+
+
+'New column headers
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "Yearly Change"
+ws.Cells(1, 11).Value = "Percent Change"
+ws.Cells(1, 12).Value = "Total Volume"
+
+
+'Loop through all ticker symbols
+For i = 2 To LastRow
+ticker = ws.Cells(i, 1)
+If ws.Cells(i, 1) <> ws.Cells(i + 1, 1).Value Then
+yearly_change = ws.Cells(i, 6).Value - open_price
+total_volume = ws.Cells(i, 7).Value + total_volume
+
+
+'Loop for percent change
+
+If open_price = 0 Then
+   percent_change = 0
+Else
+   percent_change = yearly_change / open_price
+End If
+
+  
+'Color Formatting
+'4 is green
+'3 is red
+If yearly_change > 0 Then
+   ws.Cells(outputRow, 10).Interior.ColorIndex = 4
+Else
+   ws.Cells(outputRow, 10).Interior.ColorIndex = 3
+End If
+
+
+'Printing the output
+ws.Cells(outputRow, 9).Value = ticker
+ws.Cells(outputRow, 10).Value = yearly_change
+ws.Cells(outputRow, 11).Value = percent_change
+ws.Cells(outputRow, 12).Value = total_volume
+
+'Incrementing output table
+outputRow = outputRow + 1
+
+'Reset total volume
+total_volume = 0
+
+'Reset opening price value
+opening_price = ws.Cells(i + 1, 3).Value
+
+Else
+    yearly_change = ws.Cells(i, 6).Value - open_price
+    total_volume = ws.Cells(i, 7).Value + total_volume
+End If
+
+Next i
+
+Next ws
+
+End Sub
